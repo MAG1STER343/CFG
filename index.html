@@ -3,27 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFH — Discord Server</title>
+    <title>CFH — ПИКСЕЛЬНОЕ ПРОСТРАНСТВО</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary: #5865F2;
-            --primary-light: #7289da;
-            --accent: #57F287;
-            --accent2: #EB459E;
-            --dark: #0b0d14;
-            --dark2: #111318;
-            --text: #f0f0f5;
-            --text-dim: #72767d;
-            --glass: rgba(255,255,255,0.03);
-            --glass-border: rgba(255,255,255,0.07);
-            --gradient1: linear-gradient(135deg, #5865F2, #57F287);
-            --gradient2: linear-gradient(135deg, #EB459E, #5865F2);
-            --gradient3: linear-gradient(135deg, #57F287, #FEE75C);
+            --primary: #e63946;
+            --primary-dark: #c1121f;
+            --primary-light: #ff4d6d;
+            --accent: #ffffff;
+            --accent2: #ffccd5;
+            --dark: #0d0d0d;
+            --dark2: #1a1a1a;
+            --text: #f0f0f0;
+            --text-dim: #999999;
+            --glass: rgba(255,255,255,0.04);
+            --glass-border: rgba(255,255,255,0.08);
+            --gradient1: linear-gradient(135deg, #e63946, #ff4d6d);
+            --gradient2: linear-gradient(135deg, #ff4d6d, #ffffff);
+            --gradient3: linear-gradient(135deg, #e63946, #ffffff);
         }
 
         html { scroll-behavior: smooth; }
@@ -46,7 +48,7 @@
         }
         .bg-gradient .orb {
             position: absolute; border-radius: 50%;
-            filter: blur(130px); opacity: 0.12;
+            filter: blur(140px); opacity: 0.1;
             animation: float 22s ease-in-out infinite;
         }
         .bg-gradient .orb:nth-child(1) {
@@ -55,12 +57,12 @@
         }
         .bg-gradient .orb:nth-child(2) {
             width: 500px; height: 500px;
-            background: var(--accent); top: 50%; right: -150px;
+            background: var(--primary-light); top: 50%; right: -150px;
             animation-delay: -8s;
         }
         .bg-gradient .orb:nth-child(3) {
             width: 400px; height: 400px;
-            background: var(--accent2); bottom: -100px; left: 30%;
+            background: #ffffff; bottom: -100px; left: 30%;
             animation-delay: -15s;
         }
         @keyframes float {
@@ -70,13 +72,84 @@
             75% { transform: translate(60px,40px) scale(1.05); }
         }
 
+        /* GLITCH TEXT */
+        .pixel-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(1.2rem, 3.5vw, 2.4rem);
+            color: #ffffff;
+            text-align: center;
+            padding: 2rem 1rem 0;
+            position: relative;
+            text-shadow:
+                0 0 10px rgba(230,57,70,0.8),
+                0 0 40px rgba(230,57,70,0.4);
+            letter-spacing: 2px;
+            line-height: 1.8;
+        }
+
+        .pixel-title .line1 { display: block; }
+        .pixel-title .line2 {
+            display: block;
+            color: var(--primary);
+            margin-top: 0.3rem;
+        }
+
+        @keyframes glitch1 {
+            0%,100% { clip-path: inset(0 0 90% 0); transform: translate(0); }
+            20% { clip-path: inset(20% 0 60% 0); transform: translate(-3px, 1px); }
+            40% { clip-path: inset(50% 0 30% 0); transform: translate(3px, -1px); }
+            60% { clip-path: inset(70% 0 10% 0); transform: translate(-2px, 2px); }
+            80% { clip-path: inset(10% 0 80% 0); transform: translate(2px, -2px); }
+        }
+
+        @keyframes glitch2 {
+            0%,100% { clip-path: inset(90% 0 0 0); transform: translate(0); }
+            20% { clip-path: inset(60% 0 20% 0); transform: translate(3px, -1px); }
+            40% { clip-path: inset(30% 0 50% 0); transform: translate(-3px, 1px); }
+            60% { clip-path: inset(10% 0 70% 0); transform: translate(2px, -2px); }
+            80% { clip-path: inset(80% 0 10% 0); transform: translate(-2px, 2px); }
+        }
+
+        .pixel-title::before,
+        .pixel-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 2rem;
+            left: 0;
+            right: 0;
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(1.2rem, 3.5vw, 2.4rem);
+            letter-spacing: 2px;
+            line-height: 1.8;
+            padding: 2rem 1rem 0;
+            text-align: center;
+        }
+
+        .pixel-title::before {
+            color: var(--primary);
+            animation: glitch1 3s infinite linear;
+            opacity: 0.8;
+        }
+
+        .pixel-title::after {
+            color: #ffffff;
+            animation: glitch2 3s infinite linear reverse;
+            opacity: 0.6;
+        }
+
+        .pixel-title.no-glitch::before,
+        .pixel-title.no-glitch::after {
+            animation: none;
+            opacity: 0;
+        }
+
         /* NAV */
         nav {
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
             padding: 1rem 2rem; transition: all 0.4s;
         }
         nav.scrolled {
-            background: rgba(11,13,20,0.88);
+            background: rgba(13,13,13,0.9);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
         }
@@ -85,10 +158,10 @@
             display: flex; align-items: center; justify-content: space-between;
         }
         .logo {
-            font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px;
-            background: var(--gradient1);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem; font-weight: 900; letter-spacing: -0.5px;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(230,57,70,0.5);
         }
         .nav-links { display: flex; gap: 2rem; list-style: none; }
         .nav-links a {
@@ -107,11 +180,12 @@
             padding: 0.6rem 1.5rem; background: var(--primary);
             border: none; border-radius: 50px; color: white;
             font-weight: 600; font-size: 0.85rem; cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s; text-decoration: none;
+            display: inline-block;
         }
         .nav-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(88,101,242,0.5);
+            box-shadow: 0 8px 30px rgba(230,57,70,0.5);
         }
 
         /* HERO */
@@ -129,7 +203,7 @@
             margin-bottom: 2rem; backdrop-filter: blur(10px);
         }
         .hero-badge .dot {
-            width: 8px; height: 8px; background: var(--accent);
+            width: 8px; height: 8px; background: var(--primary);
             border-radius: 50%; animation: pulse 2s infinite;
         }
         @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
@@ -156,18 +230,18 @@
         }
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(88,101,242,0.5);
+            box-shadow: 0 12px 40px rgba(230,57,70,0.5);
         }
         .btn-secondary {
             padding: 0.9rem 2.2rem; background: var(--glass);
-            border: 1px solid var(--glass-border); border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.15); border-radius: 50px;
             color: var(--text); font-weight: 600; font-size: 1rem;
             cursor: pointer; transition: all 0.3s; text-decoration: none;
             backdrop-filter: blur(10px);
         }
         .btn-secondary:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
             transform: translateY(-3px);
         }
         .hero-stats {
@@ -189,7 +263,7 @@
         .section-label {
             display: inline-block; font-size: 0.8rem; font-weight: 700;
             text-transform: uppercase; letter-spacing: 3px;
-            color: var(--accent); margin-bottom: 1rem;
+            color: var(--primary); margin-bottom: 1rem;
         }
         .section-header h2 {
             font-size: clamp(2rem,4vw,3rem); font-weight: 800;
@@ -215,7 +289,7 @@
         }
         .feature-card:hover {
             transform: translateY(-5px);
-            border-color: rgba(88,101,242,0.3);
+            border-color: rgba(230,57,70,0.3);
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
         .feature-card:hover::before { opacity: 1; }
@@ -224,12 +298,12 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 1.5rem; margin-bottom: 1.5rem;
         }
-        .feature-card:nth-child(1) .feature-icon { background: linear-gradient(135deg,rgba(88,101,242,0.2),rgba(88,101,242,0.05)); }
-        .feature-card:nth-child(2) .feature-icon { background: linear-gradient(135deg,rgba(87,242,135,0.2),rgba(87,242,135,0.05)); }
-        .feature-card:nth-child(3) .feature-icon { background: linear-gradient(135deg,rgba(235,69,158,0.2),rgba(235,69,158,0.05)); }
-        .feature-card:nth-child(4) .feature-icon { background: linear-gradient(135deg,rgba(254,231,92,0.2),rgba(254,231,92,0.05)); }
-        .feature-card:nth-child(5) .feature-icon { background: linear-gradient(135deg,rgba(237,66,69,0.2),rgba(237,66,69,0.05)); }
-        .feature-card:nth-child(6) .feature-icon { background: linear-gradient(135deg,rgba(88,101,242,0.15),rgba(235,69,158,0.1)); }
+        .feature-card:nth-child(1) .feature-icon { background: linear-gradient(135deg,rgba(230,57,70,0.2),rgba(230,57,70,0.05)); }
+        .feature-card:nth-child(2) .feature-icon { background: linear-gradient(135deg,rgba(255,77,109,0.2),rgba(255,77,109,0.05)); }
+        .feature-card:nth-child(3) .feature-icon { background: linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.02)); }
+        .feature-card:nth-child(4) .feature-icon { background: linear-gradient(135deg,rgba(230,57,70,0.15),rgba(255,204,213,0.1)); }
+        .feature-card:nth-child(5) .feature-icon { background: linear-gradient(135deg,rgba(255,77,109,0.2),rgba(230,57,70,0.05)); }
+        .feature-card:nth-child(6) .feature-icon { background: linear-gradient(135deg,rgba(255,255,255,0.08),rgba(230,57,70,0.08)); }
         .feature-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
         .feature-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.7; }
 
@@ -251,9 +325,9 @@
             font-family: 'Courier New', monospace; font-size: 0.9rem; line-height: 1.8;
         }
         .code-block .keyword { color: var(--primary-light); }
-        .code-block .string { color: var(--accent); }
+        .code-block .string { color: var(--accent2); }
         .code-block .comment { color: var(--text-dim); }
-        .code-block .fn { color: var(--accent2); }
+        .code-block .fn { color: #ffffff; }
         .floating-badge {
             position: absolute; background: var(--glass);
             border: 1px solid var(--glass-border); border-radius: 14px;
@@ -295,7 +369,7 @@
         .rank-card {
             background: var(--glass); border: 1px solid var(--glass-border);
             border-radius: 20px; padding: 2rem; text-align: center;
-            transition: all 0.4s; position: relative;
+            transition: all 0.4s;
         }
         .rank-card:hover {
             transform: translateY(-5px);
@@ -307,12 +381,12 @@
             align-items: center; justify-content: center;
             font-size: 1.8rem; font-weight: 900; color: white;
         }
-        .rank-card:nth-child(1) .rank-badge { background: linear-gradient(135deg,#99AAB5,#747f8d); }
-        .rank-card:nth-child(2) .rank-badge { background: linear-gradient(135deg,#2ECC71,#27AE60); }
-        .rank-card:nth-child(3) .rank-badge { background: linear-gradient(135deg,#3498DB,#2980B9); }
-        .rank-card:nth-child(4) .rank-badge { background: linear-gradient(135deg,#9B59B6,#8E44AD); }
-        .rank-card:nth-child(5) .rank-badge { background: linear-gradient(135deg,#E74C3C,#C0392B); }
-        .rank-card:nth-child(6) .rank-badge { background: linear-gradient(135deg,#F1C40F,#F39C12); }
+        .rank-card:nth-child(1) .rank-badge { background: linear-gradient(135deg,#888,#666); }
+        .rank-card:nth-child(2) .rank-badge { background: linear-gradient(135deg,#cd7f32,#a0522d); }
+        .rank-card:nth-child(3) .rank-badge { background: linear-gradient(135deg,#c0c0c0,#a0a0a0); }
+        .rank-card:nth-child(4) .rank-badge { background: linear-gradient(135deg,#ffd700,#daa520); }
+        .rank-card:nth-child(5) .rank-badge { background: linear-gradient(135deg,var(--primary),var(--primary-dark)); }
+        .rank-card:nth-child(6) .rank-badge { background: linear-gradient(135deg,#ffffff,#cccccc); color: #0d0d0d; }
         .rank-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
         .rank-card p { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; }
         .rank-xp {
@@ -333,8 +407,8 @@
             transition: all 0.3s;
         }
         .rule-item:hover {
-            border-color: rgba(88,101,242,0.3);
-            background: rgba(88,101,242,0.05);
+            border-color: rgba(230,57,70,0.3);
+            background: rgba(230,57,70,0.05);
         }
         .rule-num {
             width: 36px; height: 36px; border-radius: 10px;
@@ -354,7 +428,7 @@
             background: var(--glass); border: 1px solid var(--glass-border);
             border-radius: 20px; padding: 2rem; transition: all 0.3s;
         }
-        .testimonial-card:hover { border-color: rgba(88,101,242,0.2); }
+        .testimonial-card:hover { border-color: rgba(230,57,70,0.2); }
         .stars { color: #ffd700; font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 2px; }
         .testimonial-card blockquote {
             font-size: 0.95rem; line-height: 1.8; color: var(--text);
@@ -375,7 +449,7 @@
         /* CTA */
         .cta-section { text-align: center; padding: 6rem 2rem; }
         .cta-box {
-            background: linear-gradient(135deg,rgba(88,101,242,0.15),rgba(87,242,135,0.08));
+            background: linear-gradient(135deg,rgba(230,57,70,0.15),rgba(255,255,255,0.03));
             border: 1px solid var(--glass-border); border-radius: 32px;
             padding: 4rem 2rem; max-width: 800px; margin: 0 auto;
             position: relative; overflow: hidden;
@@ -383,7 +457,7 @@
         .cta-box::before {
             content: ''; position: absolute; top: -50%; left: -50%;
             width: 200%; height: 200%;
-            background: radial-gradient(circle,rgba(88,101,242,0.1) 0%,transparent 60%);
+            background: radial-gradient(circle,rgba(230,57,70,0.08) 0%,transparent 60%);
             animation: rotate 15s linear infinite;
         }
         @keyframes rotate { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
@@ -405,7 +479,8 @@
             gap: 3rem; margin-bottom: 3rem;
         }
         .footer-brand .logo {
-            font-size: 1.4rem; margin-bottom: 1rem; display: inline-block;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1rem; margin-bottom: 1rem; display: inline-block;
         }
         .footer-brand p { color: var(--text-dim); font-size: 0.9rem; line-height: 1.7; }
         .footer-col h4 {
@@ -450,7 +525,7 @@
             .mobile-toggle { display: block; }
             .nav-links {
                 display: none; position: absolute; top: 100%; left: 0; right: 0;
-                background: rgba(11,13,20,0.95); backdrop-filter: blur(20px);
+                background: rgba(13,13,13,0.95); backdrop-filter: blur(20px);
                 flex-direction: column; padding: 2rem; gap: 1.5rem;
                 border-bottom: 1px solid var(--glass-border);
             }
@@ -470,6 +545,11 @@
     <div class="orb"></div>
 </div>
 
+<div class="pixel-title" data-text="ПИКСЕЛЬНОЕ ПРОСТРАНСТВО ?">
+    <span class="line1" id="glitch-line1">ПИКСЕЛЬНОЕ</span>
+    <span class="line2" id="glitch-line2">ПРОСТРАНСТВО ?</span>
+</div>
+
 <nav id="navbar">
     <div class="nav-inner">
         <div class="logo">CFH</div>
@@ -481,7 +561,7 @@
             <li><a href="#rules">Правила</a></li>
             <li><a href="#reviews">Отзывы</a></li>
         </ul>
-        <a href="https://discord.gg/cfh" target="_blank" class="nav-cta">Войти на сервер</a>
+        <a href="https://discord.gg/YUqG3Cj3fk" target="_blank" class="nav-cta">Войти на сервер</a>
     </div>
 </nav>
 
@@ -494,7 +574,7 @@
         <h1>Добро пожаловать в <span class="gradient-text">CFH</span></h1>
         <p>Лучшее место для общения, гейминга и творчества. Присоединяйся к нашему сообществу и стань частью чего-то большего.</p>
         <div class="hero-buttons">
-            <a href="https://discord.gg/cfh" target="_blank" class="btn-primary">Присоединиться</a>
+            <a href="https://discord.gg/YUqG3Cj3fk" target="_blank" class="btn-primary">Присоединиться</a>
             <a href="#features" class="btn-secondary">Узнать больше</a>
         </div>
         <div class="hero-stats">
@@ -567,7 +647,7 @@
                     <span class="comment">// Присоединяйся к CFH</span><br>
                     <span class="keyword">const</span> server = <span class="keyword">await</span> <span class="fn">Discord</span>.<span class="fn">join</span>({<br>
                     &nbsp;&nbsp;name: <span class="string">"CFH"</span>,<br>
-                    &nbsp;&nbsp;vibe: <span class="string">"chill & friendly"</span>,<br>
+                    &nbsp;&nbsp;vibe: <span class="string">"pixel space"</span>,<br>
                     &nbsp;&nbsp;events: <span class="keyword">true</span>,<br>
                     &nbsp;&nbsp;fun: <span class="string">"unlimited"</span><br>
                     });<br><br>
@@ -587,7 +667,7 @@
                 <li><span class="check">&#10003;</span> Еженедельные ивенты</li>
                 <li><span class="check">&#10003;</span> Боты для развлечения</li>
             </ul>
-            <a href="https://discord.gg/cfh" target="_blank" class="btn-primary">Вступить в CFH</a>
+            <a href="https://discord.gg/YUqG3Cj3fk" target="_blank" class="btn-primary">Вступить в CFH</a>
         </div>
     </div>
 </section>
@@ -723,7 +803,7 @@
     <div class="cta-box reveal">
         <h2>Готов присоединиться к <span class="gradient-text">CFH</span>?</h2>
         <p>Стань частью лучшего Discord-сообщества. Один клик — и ты с нами!</p>
-        <a href="https://discord.gg/cfh" target="_blank" class="btn-primary">Вступить в сервер</a>
+        <a href="https://discord.gg/YUqG3Cj3fk" target="_blank" class="btn-primary">Вступить в сервер</a>
     </div>
 </section>
 
@@ -743,7 +823,7 @@
             </div>
             <div class="footer-col">
                 <h4>Ссылки</h4>
-                <a href="https://discord.gg/cfh" target="_blank">Discord</a>
+                <a href="https://discord.gg/YUqG3Cj3fk" target="_blank">Discord</a>
                 <a href="#">Telegram</a>
                 <a href="#">GitHub</a>
                 <a href="#">YouTube</a>
@@ -758,7 +838,7 @@
         <div class="footer-bottom">
             <span>&copy; 2026 CFH. Все права защищены.</span>
             <div class="footer-socials">
-                <a href="https://discord.gg/cfh" target="_blank" title="Discord">DC</a>
+                <a href="https://discord.gg/YUqG3Cj3fk" target="_blank" title="Discord">DC</a>
                 <a href="#" title="Telegram">TG</a>
                 <a href="#" title="GitHub">GH</a>
                 <a href="#" title="YouTube">YT</a>
@@ -768,10 +848,12 @@
 </footer>
 
 <script>
+    // Navbar scroll
     window.addEventListener('scroll', () => {
         document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
 
+    // Reveal on scroll
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, i) => {
             if (entry.isIntersecting) {
@@ -782,6 +864,7 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+    // Counter animation
     const counterObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -802,6 +885,50 @@
         });
     }, { threshold: 0.5 });
     document.querySelectorAll('.stat-number[data-target]').forEach(el => counterObserver.observe(el));
+
+    // GLITCH EFFECT - random letter replacement
+    const glitchChars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`01';
+    const line1Text = 'ПИКСЕЛЬНОЕ';
+    const line2Text = 'ПРОСТРАНСТВО ?';
+    const line1El = document.getElementById('glitch-line1');
+    const line2El = document.getElementById('glitch-line2');
+    const titleEl = document.querySelector('.pixel-title');
+
+    function glitchLine(el, originalText) {
+        const arr = originalText.split('');
+        const numGlitches = Math.floor(Math.random() * 3) + 1;
+        for (let i = 0; i < numGlitches; i++) {
+            const idx = Math.floor(Math.random() * arr.length);
+            arr[idx] = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+        }
+        el.textContent = arr.join('');
+    }
+
+    function restoreLine(el, originalText) {
+        el.textContent = originalText;
+    }
+
+    function runGlitch() {
+        const targets = [
+            { el: line1El, text: line1Text },
+            { el: line2El, text: line2Text }
+        ];
+        const pick = targets[Math.floor(Math.random() * targets.length)];
+        glitchLine(pick.el, pick.text);
+
+        setTimeout(() => {
+            restoreLine(pick.el, pick.text);
+        }, 100 + Math.random() * 200);
+    }
+
+    setInterval(() => {
+        if (Math.random() > 0.4) runGlitch();
+    }, 3000);
+
+    setInterval(() => {
+        titleEl.classList.add('no-glitch');
+        setTimeout(() => titleEl.classList.remove('no-glitch'), 200);
+    }, 8000);
 </script>
 </body>
 </html>
