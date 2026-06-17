@@ -87,11 +87,32 @@
             line-height: 1.8;
         }
 
-        .pixel-title .line1 { display: block; }
+        .pixel-title .line1 { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; }
         .pixel-title .line2 {
             display: block;
             color: var(--primary);
             margin-top: 0.3rem;
+        }
+
+        .stuff-badge {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.55rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 0.4rem 1rem;
+            background: rgba(230,57,70,0.15);
+            border: 1px solid rgba(230,57,70,0.4);
+            border-radius: 50px;
+            color: var(--primary-light);
+            white-space: nowrap;
+            vertical-align: middle;
+            animation: badgePulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(230,57,70,0.2); }
+            50% { box-shadow: 0 0 20px rgba(230,57,70,0.5); }
         }
 
         @keyframes glitch1 {
@@ -507,7 +528,7 @@
 </div>
 
 <div class="pixel-title" data-text="ПИКСЕЛЬНОЕ ПРОСТРАНСТВО ?">
-    <span class="line1" id="glitch-line1">ПИКСЕЛЬНОЕ</span>
+    <span class="line1" id="glitch-line1">ПИКСЕЛЬНОЕ <span class="stuff-badge">Проходит набор в Stuff !</span></span>
     <span class="line2" id="glitch-line2">ПРОСТРАНСТВО ?</span>
 </div>
 
@@ -776,6 +797,7 @@
     const titleEl = document.querySelector('.pixel-title');
 
     function glitchLine(el, originalText) {
+        const badge = el.querySelector('.stuff-badge');
         const arr = originalText.split('');
         const numGlitches = Math.floor(Math.random() * 3) + 1;
         for (let i = 0; i < numGlitches; i++) {
@@ -783,10 +805,13 @@
             arr[idx] = glitchChars[Math.floor(Math.random() * glitchChars.length)];
         }
         el.textContent = arr.join('');
+        if (badge) el.appendChild(badge);
     }
 
     function restoreLine(el, originalText) {
+        const badge = el.querySelector('.stuff-badge');
         el.textContent = originalText;
+        if (badge) el.appendChild(badge);
     }
 
     function runGlitch() {
