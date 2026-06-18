@@ -373,8 +373,108 @@
             .nav-links.active { display: flex; }
             .showcase { grid-template-columns: 1fr; gap: 1.5rem; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
+            .leaderboard-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+
+        /* LEADERBOARD */
+        .leaderboard-grid {
+            display: flex; flex-direction: column; gap: 0.5rem;
+            max-width: 700px; margin: 0 auto;
+        }
+        .lb-row {
+            display: flex; align-items: center; gap: 1rem;
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 6px; padding: 0.8rem 1.2rem;
+            cursor: pointer; transition: border-color 0.2s;
+        }
+        .lb-row:hover { border-color: rgba(230,57,70,0.25); }
+        .lb-rank {
+            width: 28px; height: 28px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.75rem; flex-shrink: 0;
+            background: var(--dark2); color: var(--text-dim);
+            border: 1px solid var(--glass-border);
+        }
+        .lb-row:nth-child(1) .lb-rank { background: var(--primary); color: white; border-color: var(--primary); }
+        .lb-row:nth-child(2) .lb-rank { background: #888; color: white; border-color: #888; }
+        .lb-row:nth-child(3) .lb-rank { background: #cd7f32; color: white; border-color: #cd7f32; }
+        .lb-avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--dark2); flex-shrink: 0; object-fit: cover;
+        }
+        .lb-info { flex: 1; min-width: 0; }
+        .lb-name { font-size: 0.85rem; font-weight: 600; }
+        .lb-meta { font-size: 0.7rem; color: var(--text-dim); }
+        .lb-stats {
+            display: flex; gap: 1rem; font-size: 0.75rem; color: var(--text-dim);
+            flex-shrink: 0;
+        }
+        .lb-stats span { white-space: nowrap; }
+        .lb-stats .val { color: var(--text); font-weight: 600; }
+        .lb-loading {
+            text-align: center; padding: 3rem; color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        /* PROFILES GRID */
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+        .profile-card {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 6px; padding: 1.2rem; text-align: center;
+            cursor: pointer; transition: border-color 0.2s;
+        }
+        .profile-card:hover { border-color: rgba(230,57,70,0.25); }
+        .profile-card .pc-avatar {
+            width: 48px; height: 48px; border-radius: 50%;
+            margin: 0 auto 0.6rem; background: var(--dark2); object-fit: cover;
+        }
+        .profile-card .pc-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem; }
+        .profile-card .pc-level { font-size: 0.7rem; color: var(--primary-light); margin-bottom: 0.4rem; }
+        .profile-card .pc-stats {
+            display: flex; justify-content: center; gap: 0.8rem;
+            font-size: 0.65rem; color: var(--text-dim);
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.7); align-items: center; justify-content: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: var(--dark2); border: 1px solid var(--glass-border);
+            border-radius: 8px; padding: 2rem; max-width: 400px; width: 90%;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute; top: 0.8rem; right: 0.8rem;
+            background: none; border: none; color: var(--text-dim);
+            font-size: 1.2rem; cursor: pointer;
+        }
+        .modal-avatar {
+            width: 64px; height: 64px; border-radius: 50%;
+            margin: 0 auto 0.8rem; display: block; background: var(--dark); object-fit: cover;
+        }
+        .modal-name {
+            text-align: center; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem;
+        }
+        .modal-level {
+            text-align: center; font-size: 0.8rem; color: var(--primary-light); margin-bottom: 1.2rem;
+        }
+        .modal-stats {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;
+        }
+        .modal-stat {
+            background: var(--glass); border: 1px solid var(--glass-border);
+            border-radius: 4px; padding: 0.6rem 0.8rem; text-align: center;
+        }
+        .modal-stat .ms-label { font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .modal-stat .ms-value { font-size: 0.95rem; font-weight: 700; margin-top: 0.2rem; }
     </style>
 </head>
 <body>
@@ -391,6 +491,7 @@
         <ul class="nav-links">
             <li><a href="#features">Каналы</a></li>
             <li><a href="#about">О сервере</a></li>
+            <li><a href="#leaderboard">Топ</a></li>
             <li><a href="#ranks">Ранги</a></li>
             <li><a href="#rules">Правила</a></li>
         </ul>
@@ -575,6 +676,28 @@
     </div>
 </section>
 
+<section id="leaderboard">
+    <div class="section-header reveal">
+        <div class="section-label">Лидеры</div>
+        <h2>Топ игроков</h2>
+        <p>Лучшие участники сервера по уровню</p>
+    </div>
+    <div class="leaderboard-grid" id="leaderboard-list">
+        <div class="lb-loading">Загрузка...</div>
+    </div>
+</section>
+
+<section id="profiles">
+    <div class="section-header reveal">
+        <div class="section-label">Участники</div>
+        <h2>Профили игроков</h2>
+        <p>Нажми на карточку чтобы увидеть подробности</p>
+    </div>
+    <div class="profiles-grid" id="profiles-list">
+        <div class="lb-loading">Загрузка...</div>
+    </div>
+</section>
+
 <section class="cta-section" id="cta">
     <div class="cta-box reveal">
         <h2>Готов присоединиться к <span class="gradient-text">CFH</span>?</h2>
@@ -623,6 +746,23 @@
     </div>
 </footer>
 
+<div class="modal-overlay" id="profile-modal">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <img class="modal-avatar" id="modal-avatar" src="" alt="">
+        <div class="modal-name" id="modal-name"></div>
+        <div class="modal-level" id="modal-level"></div>
+        <div class="modal-stats">
+            <div class="modal-stat"><div class="ms-label">Ранг</div><div class="ms-value" id="modal-rank"></div></div>
+            <div class="modal-stat"><div class="ms-label">XP</div><div class="ms-value" id="modal-xp"></div></div>
+            <div class="modal-stat"><div class="ms-label">Золото</div><div class="ms-value" id="modal-gold"></div></div>
+            <div class="modal-stat"><div class="ms-label">В ГС</div><div class="ms-value" id="modal-voice"></div></div>
+            <div class="modal-stat"><div class="ms-label">Крафты</div><div class="ms-value" id="modal-craft"></div></div>
+            <div class="modal-stat"><div class="ms-label">Артефакты</div><div class="ms-value" id="modal-arts"></div></div>
+        </div>
+    </div>
+</div>
+
 <script>
     window.addEventListener('scroll', () => {
         document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
@@ -637,6 +777,105 @@
         });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const API_BASE = 'http://YOUR_VPS_IP:8080';
+
+    async function fetchLeaderboard() {
+        const el = document.getElementById('leaderboard-list');
+        try {
+            const res = await fetch(`${API_BASE}/api/top?limit=10`);
+            const data = await res.json();
+            if (!data.players || !data.players.length) {
+                el.innerHTML = '<div class="lb-loading">Пока нет данных</div>';
+                return;
+            }
+            el.innerHTML = data.players.map(p => `
+                <div class="lb-row" onclick="openProfile(${p.userId})">
+                    <div class="lb-rank">${p.rank}</div>
+                    <img class="lb-avatar" src="${p.avatarUrl}" alt="" onerror="this.style.display='none'">
+                    <div class="lb-info">
+                        <div class="lb-name">#${p.userId}</div>
+                        <div class="lb-meta">Уровень ${p.level}</div>
+                    </div>
+                    <div class="lb-stats">
+                        <span><span class="val">${p.level}</span> ур.</span>
+                        <span><span class="val">${p.gold}</span> G</span>
+                        <span><span class="val">${p.voiceTime}</span></span>
+                    </div>
+                </div>
+            `).join('');
+        } catch (e) {
+            el.innerHTML = '<div class="lb-loading">API недоступен. Настройте адрес API.</div>';
+        }
+    }
+
+    async function fetchProfiles() {
+        const el = document.getElementById('profiles-list');
+        try {
+            const res = await fetch(`${API_BASE}/api/players?limit=20`);
+            const data = await res.json();
+            if (!data.players || !data.players.length) {
+                el.innerHTML = '<div class="lb-loading">Пока нет данных</div>';
+                return;
+            }
+            el.innerHTML = data.players.map(p => `
+                <div class="profile-card" onclick="openProfile(${p.userId})">
+                    <img class="pc-avatar" src="${p.avatarUrl}" alt="" onerror="this.style.display='none'">
+                    <div class="pc-name">#${p.userId}</div>
+                    <div class="pc-level">Уровень ${p.level}</div>
+                    <div class="pc-stats">
+                        <span>${p.gold} G</span>
+                        <span>${p.voiceTime}</span>
+                    </div>
+                </div>
+            `).join('');
+        } catch (e) {
+            el.innerHTML = '<div class="lb-loading">API недоступен. Настройте адрес API.</div>';
+        }
+    }
+
+    async function openProfile(userId) {
+        const modal = document.getElementById('profile-modal');
+        modal.classList.add('active');
+        document.getElementById('modal-name').textContent = `#${userId}`;
+        document.getElementById('modal-level').textContent = 'Загрузка...';
+        document.getElementById('modal-avatar').src = `https://cdn.discordapp.com/avatars/${userId}/${userId}.png?size=128`;
+
+        try {
+            const res = await fetch(`${API_BASE}/api/profile/${userId}`);
+            const p = await res.json();
+            document.getElementById('modal-name').textContent = `#${userId}`;
+            document.getElementById('modal-level').textContent = `Уровень ${p.level}`;
+            document.getElementById('modal-rank').textContent = p.rank ? `#${p.rank}` : '—';
+            document.getElementById('modal-xp').textContent = p.xp.toLocaleString();
+            document.getElementById('modal-gold').textContent = `${p.gold} G`;
+            document.getElementById('modal-voice').textContent = p.voiceTime;
+            document.getElementById('modal-craft').textContent = p.craftCount || 0;
+            const arts = p.artifacts || {};
+            document.getElementById('modal-arts').textContent =
+                `${arts.opal || 0}💎 ${arts.ruby || 0}🔴 ${arts.diamond || 0}🔷`;
+        } catch (e) {
+            document.getElementById('modal-level').textContent = 'Ошибка загрузки';
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('profile-modal').classList.remove('active');
+    }
+
+    document.getElementById('profile-modal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    fetchLeaderboard();
+    fetchProfiles();
+
+    setInterval(fetchLeaderboard, 30000);
+    setInterval(fetchProfiles, 60000);
 </script>
 </body>
 </html>
